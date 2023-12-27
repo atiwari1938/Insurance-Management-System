@@ -1,0 +1,39 @@
+create database ims;
+CREATE TABLE User (
+    userId INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);
+CREATE TABLE Client (
+    clientId INT PRIMARY KEY,
+    clientName VARCHAR(100) NOT NULL,
+    contactInfo VARCHAR(255) NOT NULL,
+    policyId INT,
+    FOREIGN KEY (policyId) REFERENCES Policy(policyId)
+);
+CREATE TABLE Policy (
+    policyId INT PRIMARY KEY,
+    policyName VARCHAR(255),
+    PolicyType VARCHAR(255),
+    coverageAmount Decimal(10,2)
+);
+CREATE TABLE Claim (
+    claimId INT PRIMARY KEY,
+    claimNumber VARCHAR(20) NOT NULL,
+    dateFiled DATE NOT NULL,
+    claimAmount DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    policyId INT,
+    clientId INT,
+    FOREIGN KEY (policyId) REFERENCES Policy(policyId),
+    FOREIGN KEY (clientId) REFERENCES Client(clientId)
+);
+CREATE TABLE Payment (
+    paymentId INT PRIMARY KEY,
+    paymentDate DATE NOT NULL,
+    paymentAmount DECIMAL(10,2) NOT NULL,
+    clientId INT,
+    FOREIGN KEY (clientId) REFERENCES Client(clientId)
+);
+
